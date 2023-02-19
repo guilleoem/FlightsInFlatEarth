@@ -1,0 +1,60 @@
+ #menu, #animationMenu {
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  #dropDownButtons {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  button {
+    display: block;
+    background: rgb(52, 53, 79);
+    color: white;
+    border: 0;
+    padding: 10px 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+      background: rgb(10, 16, 62);
+      transition: all 0.2s;
+  }
+  
+  .btnMenu {
+    margin: 1px;
+    padding: 5px;
+  }
+
+  .dropDown {
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  .dropDown label{
+    white-space: nowrap;
+  }
+  .dropDownContent {
+    padding: 1rem;
+    width: fit-content;
+    height: auto;
+    background: rgba(67, 68, 103, 0.497);
+    font-size: smaller;
+    position: absolute;
+    display: none;
+    
+  }
+
+  .show {
+    display: flex;
+    flex-direction: column;
+ }
+
+  .inputSld {
+    width: max-content;
+  }

@@ -1,0 +1,91 @@
+body {
+  font-family: 'Lexend Deca', sans-serif;
+}
+canvas {
+    display:block;
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    z-index: -1;
+}
+#mainContainer {
+  position: absolute;
+  color: aliceblue;
+  z-index: 2;padding:
+  0px;margin: 0px;
+}
+
+/*------------------------------------------------------------------------------*/
+/*-----------------------------------INPUTS-------------------------------------*/
+/*------------------------------------------------------------------------------*/
+
+.tableInputData{
+    white-space: nowrap;
+    /*border: 1px solid gray;*/
+    overflow-x: hidden;
+    /*color:aliceblue;*/
+  }
+  .labels{
+    font-size: smaller;
+    /*color:aliceblue;*/
+  }
+
+  .txtnum{
+    background-color: rgb(255, 255, 255);
+    font-size: smaller;
+    text-align: right;
+    width: 3rem;
+  }
+
+  #mapid { 
+    height: 25rem;
+  }
+
+  #infoTextBox{
+    font-size: smaller;
+    overflow-x: hidden;
+  }
+
+  .textinfoTextBox {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  
+ 
+.popup-wrapper {
+    display: none;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+ 
+.popup {
+    width: 60%;
+    /*height: 50%;
+    /*max-width: 500 px;*/
+    background: white;
+    margin: 5% auto;
+    padding-top: 2rem;
+    padding-bottom: 50px;
+    position: relative;
+   
+}
+ 
+.popup a:hover {
+    background: palevioletred;
+    transition: all 0.2s;
+}
+ 
+.popup-close {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
