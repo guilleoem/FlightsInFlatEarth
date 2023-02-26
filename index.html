@@ -2,15 +2,28 @@
 <html lang="es">
 <head>
   
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700&family=Lexend+Deca&display=swap" rel="stylesheet">
+    <!--Leaflet CSS-->
+    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>-->
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <link rel="stylesheet" href="style.css" >
-    <link rel="stylesheet" href="menu.css">
-    <link rel="stylesheet" href="loader.css">
-    <title>Document</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="CSS/style.css" >
+    <link rel="stylesheet" href="CSS/menu.css">
+    <link rel="stylesheet" href="CSS/loader.css">
+    <title>Cálculo de trayectorias, distancias y rumbos</title>
 </head>
 <body class="hidden" onload="init();">
     
@@ -23,11 +36,11 @@
       <div id="menu">
         <button class='btnMenu' id="btnMakeTrack" >Trazar ruta</button>
         <button class='btnMenu' id="btnAlternateModels" >Ver en Flatulandia</button>
-
+        <!--<button class='btnMenu' id="btnTest3">Test</button>>-->
         <div id="dropDownButtons">
           <div class="dropDown">
-            <button onclick="showDropDownContent('test')" class="btnMenu" id="btnTest">Opciones</button>
-            <div id="test" class="dropDownContent">
+            <button onclick="showDropDownContent('options')" class="btnMenu" id="btnOptions">Opciones</button>
+            <div id="options" class="dropDownContent">
                 
                   <label><input type="checkbox"id="chkShowOrthodromicPath" checked="true">ver ortodrómica</label>
                   <label><input type="checkbox"id="chkShowLoxodromicPath" checked="true">ver loxodrómica</label>
@@ -44,26 +57,25 @@
                   </select>
                   <br/>
                   <br/>
+                  <p>Radio de Flatulandia (km)</p>
                   <table>
                     <tbody>
+
                       <tr>
-                        <td><label class="labels">Radio de Flatulandia (km)</label></td>
                         <td><input type="text" id="txtFlatEarthRadius" value="20000" class="txtnum" readonly="true"></td>
-                      </tr>
-                      <tr>
                         <td><input type="range" min="6371" max="20000" step="1" value="20000" class="inputSld" id="sldFlatEarthRadius"></td>
+                        
                       </tr>
                     </tbody>
                   </table>
                   <br/>
+                  <p>Velocidad promedio de vuelo (km/h)</p>
                   <table>
                     <tbody>
                       <tr>
-                        <td><label class="labels">Velocidad promedio de vuelo (km/h)</label></td>
                         <td><input type="text" id="txtAverageSpeed" value="900" class="txtnum"  readonly="true"></td>
-                      </tr>
-                      <tr>
                         <td><input type="range" min="600" max="2000" step="10" value="900" class="inputSld" id="sldAverageSpeed"></td>
+                        
                       </tr>
                     </tbody>
                   </table>
@@ -71,8 +83,8 @@
             </div>
           </div>
           <div class="dropDown">
-            <button onclick="showDropDownContent('test2')" class="btnMenu" id="btnTest2">Viajar</button>
-            <div id="test2" class="dropDownContent">
+            <button onclick="showDropDownContent('fly')" class="btnMenu" id="btnFly">Viajar</button>
+            <div id="fly" class="dropDownContent">
 
                 <div>
                   <label><input type="radio" name="rdbtnFly" id="rdbtnFlyOrthodromic" checked>Por ortodrómica</label>
@@ -83,6 +95,8 @@
             </div>
           </div>
         </div>
+        <button class='btnMenu' id="btnInfo" >Info</button>
+        <!--<button class='btnMenu' id="btnTravel" >Viajar</button>-->
       </div>
 
       <div id="animationMenu">
@@ -116,7 +130,7 @@
                 <td><p class="textinfoTextBox" id="totalDistanceContainer"></p></td>
               </tr>
               <tr>
-                <td><p class="textinfoTextBox">Tiempo de vuelo total: </p></td>
+                <td><p class="textinfoTextBox">Tiempo total: </p></td>
                 <td><p class="textinfoTextBox" id="totalFligthTimeContainer"></p></td>
               </tr>
               <tr>
@@ -170,16 +184,105 @@
 
        
       </div>
-      <div class="popup-wrapper">
-        <div class="popup">
-            <div class="popup-close">x</div>
-            <div class="popup-content">
-
+      <div id="popupWrapper">
+        <div class="popup" id="popupMap" >
+            <div>
+                <!--mapa-->
               <div id="mapid"></div>
   
             </div>
-
+            <div class="popupFooter">
+              
+              <button class='btnMenu' id="btnPopupMapClose">Listo!</button>
+            </div>
         </div>
+
+        <div class="popup" id="popupInfo" >
+          <div id="tabsInfo">
+            <ul>
+              <li id="infoTab"><b>Info</b></li>
+              <li id="aboutTab"><b>Acerca</b></li>
+            </ul>
+          </div>
+          
+          <div class="popupInfoContent">
+            
+            <div id="infoTabContent">
+              <p>
+  
+                <p>La aplicación calcula y muestra distintos tipos de trayectorias entre ubicaciones dadas. Se pueden dar tantas ubicaciones como se quieran, la aplicación calculará los trayectos entre cada punto de la trayectoria. Una vez trazada la ruta se puede recorrer mostrando punto a punto información como la ubicación actual, el rumbo, la distancia entre los distintos tramos, etc.</p>
+              
+                <b>Trazar una ruta</b>
+              
+              
+                <p>
+                  Al hacer click en <kbd>Trazar ruta</kbd> del menú se abre un mapa en el que se pueden agregar puntos. El primer punto agregado será el de salida y el último el destino. Se pueden agregar y editar varios puntos.
+              
+                  Para agregar un punto solo hay que hacer doble click en la ubicación que se quiera. Aparecerá un marcador seleccionable mostrando info de la ubicación y también un botón con el que se puede eliminar el punto de la ruta. Se puede editar la ubicación arrastrando el marcador hasta la nueva ubicación. Para agregar otro punto haga doble click en otra ubicación. Éste será el siguiente destino y el recorrido entre esos puntos será el primer tramo de la ruta. Los puntos se unirán en la vista del mapa con una línea simple. Una vez trazada la ruta haga click en <kbd>Listo!</kbd> en la esquina inferior derecha. Se mostrarán las rutas de tres maneras:
+                </p>
+                  <ul>
+                    <li>Ortodrómicas en verde.</li>
+                    <li>Loxodrómicas en rojo.</li>
+                    <li>“Flatdrómicas” en amarillo.</li>
+                  </ul>
+                <p>
+                  Puede volver a hacer click en <kbd>Trazar ruta</kbd> para editar o borrar puntos de la ruta.
+                </p>
+              
+                <b>Alternar entre mapas</b>
+              
+                <p>Se pueden alternar las vistas entre el globo terráqueo y el “mapa” de la Tierra plana. Para hacerlo haga click en el botón <kbd>Ver en Flatulandia</kbd>. La ruta se proyectará punto a punto en el mapa acimutal y el botón cambiará a <kbd>Ver en el globo</kbd> para volver a la vista anterior.</p>
+              
+                <b>Recorrer la ruta</b>
+              
+                <p>Al hacer click en el botón <kbd>Viajar</kbd> se desplegará una lista en la que se puede elegir uno de los tres tipos de recorrido. Al hacer click en cualquiera se mostrará una animación de un avión (no a escala) recorriendo la ruta y un panel de información. El menú cambiará a comandos para controlar la animación.</p>
+                </p>
+            </div>
+            <div id="aboutTabContent">
+              <b>Créditos</b>
+              <p>Código, diseño y cálculos por Guillermo Mulvihill.</p>
+              <a href="mailto:guilleoem@gmail.com">guilleoem@gmail.com</a>
+
+              <p>Se hace uso de los siguientes frameworks y componentes:</p>
+
+              <p><b>Babylon.js v5.0</b></p>
+              <p><a href="https://www.babylonjs.com/" target="_blank">https://www.babylonjs.com/</a></p>
+
+              <p><b>Leaflet Maps API  v1.9.0</b></p>
+              
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Copyright © Cloudmade, Vladimir Agafonkin - github.com/Leaflet</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://leafletjs.com/" target="_blank">https://leafletjs.com/</a></td>
+                    <td><a href="https://github.com/Leaflet/Leaflet/blob/master/LICENSE" target="_blank">(LICENSE)</a></td>
+                  </tr>
+                </tbody>
+              </table>
+  
+
+              <p><b>OpenStreetMap Map Data</b></p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Copyright © OpenStreetMap contributors - openstreetmap.org</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://www.openstreetmap.org/about" target="_blank">https://www.openstreetmap.org/about</a></td>
+                    <td><a href="https://www.openstreetmap.org/copyright" target="_blank">(LICENSE)</a></td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+          <div class="popupFooter">
+            <button class='btnMenu' id="btnPopupInfoClose">Listo!</button>
+          </div>
+      </div>
       </div>
 
     </div>
@@ -187,12 +290,19 @@
     <canvas id="canvas"></canvas>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    
+    
+    <!--babylon-->
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
-    <script src="babylon.objFileLoader.js"></script>
-    <script src="babylon.glTFFileLoader.js"></script>
-    <script src="babylon.stlFileLoader.js"></script>
+    <!--mesh loader-->
+    <script src="JS/babylon.objFileLoader.js"></script>
+    <script src="JS/babylon.glTFFileLoader.js"></script>
+    <script src="JS/babylon.stlFileLoader.js"></script>
     <script src="js.js"></script>
+    <script src="JS/leaflet-providers.js"></script>
+
+
     
 </body>
 </html>
