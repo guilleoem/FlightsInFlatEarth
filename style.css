@@ -43,7 +43,7 @@ canvas {
 
   #infoTextBox{
     font-family: monospace;
-    font-size: large;
+    font-size: small;
     font-weight: bold;
     overflow-x: hidden;
     background-color: rgba(0, 0, 0, 0.5);
