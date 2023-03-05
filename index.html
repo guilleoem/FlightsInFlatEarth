@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   
 
@@ -26,7 +26,7 @@
     
   <div class="loader" id="pageLoader">
       <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-      <p id="loaderText">Loading...</p>
+      <p id="loaderText">Cargando...</p>
     </div>
     
     <div id="mainContainer">
@@ -111,27 +111,61 @@
           <table>
             <tbody>
               <tr>
-                <td><p class="textinfoTextBox">Desde lat: </p></td>
+                <td><p class="textinfoTextBox">Desde  lat: </p></td>
                 <td><p class="textinfoTextBox" id="startFligthLatContainer"></p></td>
-                <td><p class="textinfoTextBox"> lng: </p></td>
+                <td><p class="textinfoTextBox">  lng: </p></td>
                 <td><p class="textinfoTextBox" id="startFligthLngContainer"></p></td>
               </tr>
               <tr>
-                <td><p class="textinfoTextBox">Hasta lat: </p></td>
+                <td><p class="textinfoTextBox">Hasta  lat: </p></td>
                 <td><p class="textinfoTextBox" id="endFligthLatContainer"></p></td>
-                <td><p class="textinfoTextBox"> lng: </p></td>
+                <td><p class="textinfoTextBox">  lng: </p></td>
                 <td><p class="textinfoTextBox" id="endFligthLngContainer"></p></td>
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <p class="textinfoTextBox" style="color: green;">POR ORTODRÓMICAS<b></b></p>
+                </td>
               </tr>
               <tr>
                 <td><p class="textinfoTextBox">Distancia total: </p></td>
-                <td><p class="textinfoTextBox" id="totalDistanceContainer"></p></td>
+                <td><p class="textinfoTextBox" id="totalOrthodromicDistanceContainer"></p></td>
               </tr>
               <tr>
-                <td><p class="textinfoTextBox">Tiempo total: </p></td>
-                <td><p class="textinfoTextBox" id="totalFligthTimeContainer"></p></td>
+                <td>
+                  <p class="textinfoTextBox" style="color: red;">POR LOXODRÓMICAS<b></b></p>
+                </td>
               </tr>
               <tr>
-                <td><p class="textinfoTextBox">----------------------------</p></td>
+                <td><p class="textinfoTextBox">Distancia total: </p></td>
+                <td><p class="textinfoTextBox" id="totalLoxodromicDistanceContainer"></p></td>
+              </tr>
+              <tr>
+                <td>
+                  <p class="textinfoTextBox" style="color: yellow;">POR FLATDRÓMICAS<b></b></p>
+                </td>
+              </tr>
+              <tr>
+                <td><p class="textinfoTextBox">Distancia total: </p></td>
+                <td><p class="textinfoTextBox" id="totalFlatodromicDistanceContainer"></p></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="infoTrackTextBox">
+          <table>
+            <tbody>
+              <tr>
+                <td><p class="textinfoTextBox">---------------</p></td>
+              </tr>
+              <tr>
+                <td>
+                  <p class="textinfoTextBox" id="infoTrackTitle"><b></b></p>  <!--agregar texto y color de acuerdo al tipo de ruta seleccionada-->
+                </td>
               </tr>
               <tr>
                 <td><p class="textinfoTextBox" id="sectionContainer"></p></td>
@@ -158,7 +192,7 @@
                 <td><p class="textinfoTextBox" id="sectionFligthTimeContainer"></p></td>
               </tr>
               <tr>
-                <td><p class="textinfoTextBox">----------------------------</p></td>
+                <td><p class="textinfoTextBox">---------------</p></td>
               </tr>
               <tr>
                 <td><p class="textinfoTextBox">Posición actual</p></td>
@@ -189,7 +223,7 @@
   
             </div>
             <div class="popupFooter">
-              
+              <!--<input type='file' id="kmzFile" accept=".kml,.kmz" onchange="fileChanged()">-->
               <button class='btnMenu' id="btnPopupMapClose">Listo!</button>
             </div>
         </div>
@@ -273,19 +307,30 @@
                 </tbody>
               </table>
 
+
             </div>
 
           </div>
           <div class="popupFooter">
+
             <button class='btnMenu' id="btnPopupInfoClose">Listo!</button>
           </div>
       </div>
       </div>
 
+      
+
     </div>
 
-    <canvas id="canvas"></canvas>
+   
 
+
+    <canvas id="canvas"></canvas>
+    <!--Leaflet js-->
+    <!--<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="crossorigin=""></script>-->
+    <!--Leaflet providers-->
+    <!--<script src="http://unpkg.com/leaflet@latest/dist/leaflet.js"></script>-->
+    <!--<script src="leaflet-providers.js"></script>-->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     
     
@@ -296,9 +341,19 @@
     <script src="babylon.objFileLoader.js"></script>
     <script src="babylon.glTFFileLoader.js"></script>
     <script src="babylon.stlFileLoader.js"></script>
-    
     <script src="leaflet-providers.js"></script>
     <script src="js.js"></script>
+    <!--<script src="JS/animation.js"></script>
+    <script src="JS/basic.js"></script>
+    <script src="JS/kmlReader.js"></script>
+    <script src="JS/calc.js"></script>
+    <script src="JS/map.js"></script>
+    <script src="JS/menu.js"></script>
+    <script src="JS/popup-map.js"></script>
+    <script src="JS/popup-info.js"></script>-->
+    
+    
+   
 
     
 </body>
