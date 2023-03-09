@@ -12,10 +12,10 @@
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
 
     <link rel="stylesheet" href="style.css" >
     <link rel="stylesheet" href="menu.css">
@@ -76,6 +76,17 @@
                       </tr>
                     </tbody>
                   </table>
+                  <br/>
+                  <p>Velocidad de animación</p>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td><input type="text" id="txtAnimationSpeed" value="5" class="txtnum"  readonly="true"></td>
+                        <td><input type="range" min="1" max="5" step="1" value="5" class="inputSld" id="sldAnimationSpeed"></td>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
             </div>
           </div>
@@ -102,7 +113,7 @@
         <button class='btnMenu' id="btnStopAnimation" >PARAR</button>
       </div>
 
-      <div id="infoTextBox"  style="margin: 0px;padding: 10px;">
+      <div id="infoTextBox">
 
 
         <p class="textinfoTextBox"><b id="infoTableTitle"></b></p>
@@ -136,6 +147,10 @@
                 <td><p class="textinfoTextBox" id="totalOrthodromicDistanceContainer"></p></td>
               </tr>
               <tr>
+                <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
+                <td><p class="textinfoTextBox" id="initialOrthodromicCourseContainer"></p></td>
+              </tr>
+              <tr>
                 <td>
                   <p class="textinfoTextBox" style="color: red;">POR LOXODRÓMICAS<b></b></p>
                 </td>
@@ -143,6 +158,10 @@
               <tr>
                 <td><p class="textinfoTextBox">Distancia total: </p></td>
                 <td><p class="textinfoTextBox" id="totalLoxodromicDistanceContainer"></p></td>
+              </tr>
+              <tr>
+                <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
+                <td><p class="textinfoTextBox" id="initialLoxodromicCourseContainer"></p></td>
               </tr>
               <tr>
                 <td>
@@ -153,15 +172,16 @@
                 <td><p class="textinfoTextBox">Distancia total: </p></td>
                 <td><p class="textinfoTextBox" id="totalFlatodromicDistanceContainer"></p></td>
               </tr>
+              <tr>
+                <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
+                <td><p class="textinfoTextBox" id="initialFlatdromicCourseContainer"></p></td>
+              </tr>
             </tbody>
           </table>
         </div>
         <div id="infoTrackTextBox">
           <table>
             <tbody>
-              <tr>
-                <td><p class="textinfoTextBox">---------------</p></td>
-              </tr>
               <tr>
                 <td>
                   <p class="textinfoTextBox" id="infoTrackTitle"><b></b></p>  <!--agregar texto y color de acuerdo al tipo de ruta seleccionada-->
@@ -276,7 +296,7 @@
 
               <p>Se hace uso de los siguientes frameworks y componentes:</p>
 
-              <p><b>Babylon.js v5.49.0</b></p>
+              <p><b>Babylon.js v5.0</b></p>
               <p><a href="https://www.babylonjs.com/" target="_blank">https://www.babylonjs.com/</a></p>
 
               <p><b>Leaflet Maps API  v1.9.0</b></p>
@@ -343,6 +363,11 @@
     <script src="babylon.stlFileLoader.js"></script>
     <script src="leaflet-providers.js"></script>
     <script src="js.js"></script>
-  
+
+    
+    
+   
+
+    
 </body>
 </html>
