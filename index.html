@@ -12,14 +12,14 @@
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 
-    <link rel="stylesheet" href="style.css" >
-    <link rel="stylesheet" href="menu.css">
-    <link rel="stylesheet" href="loader.css">
+    <link rel="stylesheet" href="CSS/style.css" >
+    <link rel="stylesheet" href="CSS/menu.css">
+    <link rel="stylesheet" href="CSS/loader.css">
     <title>Cálculo de trayectorias, distancias y rumbos</title>
 </head>
 <body class="hidden" onload="init();">
@@ -33,7 +33,7 @@
       <div id="menu">
         <button class='btnMenu' id="btnMakeTrack" >Trazar ruta</button>
         <button class='btnMenu' id="btnAlternateModels" >Ver en Flatulandia</button>
-        <!--<button class='btnMenu' id="btnTest3">Test</button>>-->
+        <button class='btnMenu' id="btnMercator">Ver en Mercator</button>
         <div id="dropDownButtons">
           <div class="dropDown">
             <button onclick="showDropDownContent('options')" class="btnMenu" id="btnOptions">Opciones</button>
@@ -81,8 +81,8 @@
                   <table>
                     <tbody>
                       <tr>
-                        <td><input type="text" id="txtAnimationSpeed" value="5" class="txtnum"  readonly="true"></td>
-                        <td><input type="range" min="1" max="5" step="1" value="5" class="inputSld" id="sldAnimationSpeed"></td>
+                        <td><input type="text" id="txtAnimationSpeed" value="3" class="txtnum"  readonly="true"></td>
+                        <td><input type="range" min="1" max="5" step="1" value="3" class="inputSld" id="sldAnimationSpeed"></td>
                         
                       </tr>
                     </tbody>
@@ -105,6 +105,9 @@
         </div>
         <button class='btnMenu' id="btnInfo" >Info</button>
         <!--<button class='btnMenu' id="btnTravel" >Viajar</button>-->
+      </div>
+      <div id="MercatorViewMenu"  style="display: none;">
+        <button class='btnMenu' id="btnCloseMercator" >Volver</button>  
       </div>
 
       <div id="animationMenu">
@@ -133,64 +136,81 @@
                 <td><p class="textinfoTextBox">  lng: </p></td>
                 <td><p class="textinfoTextBox" id="endFligthLngContainer"></p></td>
               </tr>
+              <!--
+              <tr>
+                <td><p class="textinfoTextBox" id="infoTotalDistance">Distancia total: </p></td>
+              </tr>
+              <tr>
+                <td><p class="textinfoTextBox" id="infoTotalFligthTime">Tiempo total de vuelo: </p></td>
+              </tr> 
+              -->
             </tbody>
           </table>
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <p class="textinfoTextBox" style="color: green;">POR ORTODRÓMICAS<b></b></p>
-                </td>
-              </tr>
-              <tr>
-                <td><p class="textinfoTextBox">Distancia total: </p></td>
-                <td><p class="textinfoTextBox" id="totalOrthodromicDistanceContainer"></p></td>
-              </tr>
-              <tr>
-                <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
-                <td><p class="textinfoTextBox" id="initialOrthodromicCourseContainer"></p></td>
-              </tr>
-              <tr>
-                <td>
-                  <p class="textinfoTextBox" style="color: red;">POR LOXODRÓMICAS<b></b></p>
-                </td>
-              </tr>
-              <tr>
-                <td><p class="textinfoTextBox">Distancia total: </p></td>
-                <td><p class="textinfoTextBox" id="totalLoxodromicDistanceContainer"></p></td>
-              </tr>
-              <tr>
-                <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
-                <td><p class="textinfoTextBox" id="initialLoxodromicCourseContainer"></p></td>
-              </tr>
-              <tr>
-                <td>
-                  <p class="textinfoTextBox" style="color: yellow;">POR FLATDRÓMICAS<b></b></p>
-                </td>
-              </tr>
-              <tr>
-                <td><p class="textinfoTextBox">Distancia total: </p></td>
-                <td><p class="textinfoTextBox" id="totalFlatodromicDistanceContainer"></p></td>
-              </tr>
-              <tr>
-                <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
-                <td><p class="textinfoTextBox" id="initialFlatdromicCourseContainer"></p></td>
-              </tr>
-            </tbody>
-          </table>
+
+              <div id="infoOrthodromic">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p class="textinfoTextBox" style="color: green;">POR ORTODRÓMICAS<b></b></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><p class="textinfoTextBox">Distancia total: </p></td>
+                      <td><p class="textinfoTextBox" id="totalOrthodromicDistanceContainer"></p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
+                      <td><p class="textinfoTextBox" id="initialOrthodromicCourseContainer"></p></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="infoLoxodromic">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p class="textinfoTextBox" style="color: red;">POR LOXODRÓMICAS<b></b></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><p class="textinfoTextBox">Distancia total: </p></td>
+                      <td><p class="textinfoTextBox" id="totalLoxodromicDistanceContainer"></p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
+                      <td><p class="textinfoTextBox" id="initialLoxodromicCourseContainer"></p></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="infoFlatdromic">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p class="textinfoTextBox" style="color: yellow;">POR FLATDRÓMICAS<b></b></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><p class="textinfoTextBox">Distancia total: </p></td>
+                      <td><p class="textinfoTextBox" id="totalFlatdromicDistanceContainer"></p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
+                      <td><p class="textinfoTextBox" id="initialFlatdromicCourseContainer"></p></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
         </div>
         <div id="infoTrackTextBox">
+          <p class="textinfoTextBox" id="infoTrackTitle"><b></b></p>  <!--agregar texto y color de acuerdo al tipo de ruta seleccionada-->
+          <p class="textinfoTextBox" id="sectionContainer"></p>
           <table>
             <tbody>
-              <tr>
-                <td>
-                  <p class="textinfoTextBox" id="infoTrackTitle"><b></b></p>  <!--agregar texto y color de acuerdo al tipo de ruta seleccionada-->
-                </td>
-              </tr>
-              <tr>
-                <td><p class="textinfoTextBox" id="sectionContainer"></p></td>
-                <td><p class="textinfoTextBox" id="totalFligthTimeContainer"></p></td>
-              </tr>
               <tr>
                 <td><p class="textinfoTextBox">Desde lat: </p></td>
                 <td><p class="textinfoTextBox" id="startSectionLatContainer"></p></td>
@@ -212,6 +232,10 @@
                 <td><p class="textinfoTextBox" id="sectionFligthTimeContainer"></p></td>
               </tr>
               <tr>
+                <td><p class="textinfoTextBox">Rumbo inicial: </p></td>
+                <td><p class="textinfoTextBox" id="sectionInitialCourseContainer"></p></td>
+              </tr>
+              <tr>
                 <td><p class="textinfoTextBox">---------------</p></td>
               </tr>
               <tr>
@@ -227,6 +251,12 @@
                 <td><p class="textinfoTextBox">Rumbo:  </p></td>
                 <td><p class="textinfoTextBox" id="courseContainer"></p></td>
               </tr>
+              <p id="xAirplaneNormal"></p>
+              <p id="yAirplaneNormal"></p>
+              <p id="zAirplaneNormal"></p>
+              <p id="xCamNormal"></p>
+              <p id="yCamNormal"></p>
+              <p id="zCamNormal"></p>
 
             </tbody>
           </table>
@@ -235,6 +265,7 @@
 
        
       </div>
+
       <div id="popupWrapper">
         <div class="popup" id="popupMap" >
             <div>
@@ -253,6 +284,7 @@
             <ul>
               <li id="infoTab"><b>Info</b></li>
               <li id="aboutTab"><b>Acerca</b></li>
+              <li id="projectsTab"><b>Proyectos</b></li>
             </ul>
           </div>
           
@@ -260,8 +292,8 @@
             
             <div id="infoTabContent">
               <p>
-  
-                <p>La aplicación calcula y muestra distintos tipos de trayectorias entre ubicaciones dadas. Se pueden dar tantas ubicaciones como se quieran, la aplicación calculará los trayectos entre cada punto de la trayectoria. Una vez trazada la ruta se puede recorrer mostrando punto a punto información como la ubicación actual, el rumbo, la distancia entre los distintos tramos, etc.</p>
+
+                <p>La aplicación muestra las incoherencias de la "Tierra plana" abordándola desde el problema de las distancias entre distintas ubicaciones. Para hacerlo calcula y muestra distintos tipos de trayectorias entre ubicaciones dadas, en distintas representaciones terrestres (un globo terráqueo, una proyección Mercator y una proyección acimutal equidistante polar norte, mal llamada "mapa de la Tierra plana"). Se pueden dar tantas ubicaciones como se quieran, la aplicación calculará los trayectos entre cada punto de la trayectoria. Una vez trazada la ruta se puede recorrer mostrando punto a punto información como la ubicación actual, el rumbo, la distancia entre los distintos tramos, etc. Se sigue de lo calculado que las trayectorias en la "Tierra plana" no coinciden en la realidad ni en distancias, ni en rumbos ni en duración horaria.</p>
               
                 <b>Trazar una ruta</b>
               
@@ -282,7 +314,7 @@
               
                 <b>Alternar entre mapas</b>
               
-                <p>Se pueden alternar las vistas entre el globo terráqueo y el “mapa” de la Tierra plana. Para hacerlo haga click en el botón <kbd>Ver en Flatulandia</kbd>. La ruta se proyectará punto a punto en el mapa acimutal y el botón cambiará a <kbd>Ver en el globo</kbd> para volver a la vista anterior.</p>
+                <p>Se pueden alternar las vistas entre el globo terráqueo, la proyección Mercator y el “mapa de la Tierra plana". Para hacerlo haga click en el botón <kbd>Ver en Flatulandia</kbd>. La ruta se proyectará punto a punto en el mapa acimutal y el botón cambiará a <kbd>Ver en el globo</kbd> para volver a la vista anterior. El botón <kbd>Ver en Mercator</kbd> permite ver las rutas proyectadas en la proyección Mercator.</p>
               
                 <b>Recorrer la ruta</b>
               
@@ -291,15 +323,17 @@
             </div>
             <div id="aboutTabContent">
               <b>Créditos</b>
-              <p>Código, diseño y cálculos por Guillermo Mulvihill.</p>
-              <a href="mailto:guilleoem@gmail.com">guilleoem@gmail.com</a>
+              <p>Código, diseño y cálculos por <span id="author"></span>. Si tiene alguna pregunta, sugerencia o comentario no dude en contactarme.</p>
+              <a href="mailto:guilleoem@gmail.com"><span id="authoremail"></span></a>
 
               <p>Se hace uso de los siguientes frameworks y componentes:</p>
 
-              <p><b>Babylon.js v5.0</b></p>
+              <p><b>Babylon.js versión: <span id="babylonVersion"></span></b></p>
               <p><a href="https://www.babylonjs.com/" target="_blank">https://www.babylonjs.com/</a></p>
 
-              <p><b>Leaflet Maps API  v1.9.0</b></p>
+              <p><b>WebGL: <span id="webglVersion"></span></b></p>
+
+              <p><b>Leaflet versión: <span id="leafletVersion"></span></b></p>
               
               <table>
                 <tbody>
@@ -329,11 +363,17 @@
 
 
             </div>
+            <div id="ProjectsContent">  
+              <b><a href="https://guilleoem.github.io/Calculadora-de-curvatura/" target="_blank">Calculadora de curvatura</a></b>
+              <p>Una web app que permite calcular cómo debería verse un objeto en la distancia según la curvatura de la Tierra, teniendo en cuenta parámetros básicos como la altura del observador, el tamaño del objetivo y la distancia entre ambos. Se puede asimismo hacer pequeñas correcciones por refracción atmosférica. </p>
+              <p>Se presentan muchos resultados relevantes organizados en distintas secciones y se muestran visualmente en dos tipos de gráficos: una vista lateral simple que representa info muy básica de la situación y una vista 3D que la representa en una perspectiva cónica emulando lo que se vería en una cámara con distintas distancias focales.</p>
+
+            </div>
 
           </div>
           <div class="popupFooter">
 
-            <button class='btnMenu' id="btnPopupInfoClose">Listo!</button>
+            <button class='btnMenu' id="btnPopupInfoClose" onclick="closePopup()">Listo!</button>
           </div>
       </div>
       </div>
@@ -346,23 +386,19 @@
 
 
     <canvas id="canvas"></canvas>
-    <!--Leaflet js-->
-    <!--<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="crossorigin=""></script>-->
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!--Leaflet providers-->
     <!--<script src="http://unpkg.com/leaflet@latest/dist/leaflet.js"></script>-->
     <!--<script src="leaflet-providers.js"></script>-->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     
     
-    <!--babylon-->
-    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <!-- Babylon -->
     <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
-    <!--mesh loader-->
-    <script src="babylon.objFileLoader.js"></script>
-    <script src="babylon.glTF2FileLoader.js"></script>
-    <script src="babylon.stlFileLoader.js"></script>
-    <script src="leaflet-providers.js"></script>
-    <script src="js.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    
+    <script src="JS/js.js"></script>
 
     
     
