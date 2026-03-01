@@ -722,7 +722,7 @@ var createScene  = function() {
    
    cielo = BABYLON.MeshBuilder.CreateSphere("cielo",{segments: 30, diameter: 12000, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
    var estrellas = new BABYLON.StandardMaterial("estrellas",scene);
-   estrellas.diffuseTexture = new BABYLON.Texture("https://guilleoem.github.io/starmapHQ.jpg",scene);
+   estrellas.diffuseTexture = new BABYLON.Texture("starmapHQ.jpg",scene);
    estrellas.disableLighting = true;
    estrellas.emissiveColor = new BABYLON.Color3(1, 1, 1);
    estrellas.diffuseTexture.uScale=1;
@@ -735,7 +735,7 @@ var createScene  = function() {
    
    Earth = BABYLON.MeshBuilder.CreateSphere("Earth",{segments: 120, diameter: 2*earthRadius*escala}, scene);
    var myMaterial = new BABYLON.StandardMaterial("myMaterial", scene);
-   myMaterial.diffuseTexture = new BABYLON.Texture("https://guilleoem.github.io/earth.jpeg", scene);
+   myMaterial.diffuseTexture = new BABYLON.Texture("earth.jpeg", scene);
    myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
 
    //myMaterial.specularPower=1000;
@@ -756,7 +756,7 @@ var createScene  = function() {
 
    FlatEarth = BABYLON.MeshBuilder.CreateCylinder("Flatulandia", {tessellation: 90, height: 2*escala, diameter: 2*flatEarthRadius*escala, faceUV: faceUV}, scene);
    var FEMaterial = new BABYLON.StandardMaterial("FEMaterial", scene);
-   FEMaterial.diffuseTexture = new BABYLON.Texture("https://guilleoem.github.io/FEGls.jpg", scene);
+   FEMaterial.diffuseTexture = new BABYLON.Texture("FEGls.jpg", scene);
    FEMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
    //FEMaterial.specularPower=10000;
    FlatEarth.material = FEMaterial;
@@ -768,7 +768,7 @@ var createScene  = function() {
    var mercatorSize = 2*flatEarthRadius*escala; // mismo diámetro que FlatEarth
    Mercator = BABYLON.MeshBuilder.CreateGround("Mercator", {width: mercatorSize, height: mercatorSize, subdivisions: 1, faceUV: faceUV}, scene);
    var MercatorMaterial = new BABYLON.StandardMaterial("MercatorMaterial", scene);
-   MercatorMaterial.diffuseTexture = new BABYLON.Texture("https://guilleoem.github.io/Mercator.jpg", scene);
+   MercatorMaterial.diffuseTexture = new BABYLON.Texture("Mercator.jpg", scene);
    MercatorMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
    MercatorMaterial.backFaceCulling = false;
    MercatorMaterial.disableLighting = true;
@@ -800,7 +800,7 @@ Mercator.checkCollisions = true;
 //AEROPLANO (PORQUE VUELA SOBRE UN PLANO :V)  BORRAR ESTO DESPUÉS DE PROBAR QUE FUNCIONA EL MODELO
 BABYLON.SceneLoader.ImportMesh(
     "",
-    "https://guilleoem.github.io/",
+    "",
     "qantasplane2.glb",
     scene,
     function (meshes) {
