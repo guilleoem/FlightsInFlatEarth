@@ -44,7 +44,7 @@ canvas {
   #infoTextBox{
     font-family: monospace;
     font-size: small;
-    font-weight: bold;
+    padding-left: 10px;
     overflow-x: hidden;
     background-color: rgba(0, 0, 0, 0.5);
   }
@@ -60,7 +60,7 @@ canvas {
 #popupWrapper {
 
     background: rgba(0, 0, 0, 0.5);
-    display: block;
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -70,13 +70,23 @@ canvas {
 
 }
 
+#popupWrapper.active {
+    display: block; /* o block si no usás flex */
+}
+
 
 .popup {
     display: none;
     width: 80%;
     background: white;
     margin: 0 auto;
+
     position: relative;
+   
+}
+
+.popup.active {
+    display: block;
 }
 
 .popup div{
@@ -84,21 +94,23 @@ canvas {
 }
 
 .popupInfoContent {
+
   color: black;
   padding-left: 1rem;
   padding-right: 1rem;
   overflow-y: scroll;
 }
-
 .popupFooter{
   padding: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  
 }
 
 #tabsInfo {
-  color: rgb(52, 53, 79);  
+  color: rgb(52, 53, 79);
+  
 }
 
 #tabsInfo ul {
@@ -106,19 +118,19 @@ canvas {
   margin-bottom: 1rem;
 }
 
-#tabsInfo li { 
+#tabsInfo li {
+  
   list-style-type: none;
   display: inline;
   text-align: center;
   justify-content: baseline;
   border-bottom-style: solid;
   border-bottom-color: none;
+  
   padding-right: 2rem;
   cursor: pointer;
 }
 
-
 #infoTrackTextBox {
   display: none;
 }
-
