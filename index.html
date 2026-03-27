@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700&family=Lexend+Deca&display=swap" rel="stylesheet">
+    <!--Leaflet CSS-->
+    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>-->
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 
@@ -40,9 +42,31 @@
                   <label><input type="checkbox"id="chkShowOrthodromicPath" checked="true">ver ortodrómica</label>
                   <label><input type="checkbox"id="chkShowLoxodromicPath" checked="true">ver loxodrómica</label>
                   <label><input type="checkbox"id="chkShowFlatdromicPath" checked="true">ver flatdrómica</label>
-                <br/>
-                <br/>
+               
+                
                 <div>
+                  </table>
+                  
+                  <p>Grosor de línea de ruta</p>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td><input type="text" id="txtLineThickness" value="3" class="txtnum"  readonly="true"></td>
+                        <td><input type="range" min="1" max="5" step="1" value="3" class="inputSld" id="sldLineThickness"></td>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br/>
+                  <label for="SelectRouteMap">Trazar ruta desde</label>
+
+                  <select name="SelectRouteMap" id="slctRouteMap">
+                    <option value="3">MapTilesAPI (EPSG:3857)</option>
+                    <option value="4">terrestris (EPSG:4326)</option>
+
+                  </select>
+                  <br/>
+                  <br/>
                   <label for="FEmap">"Mapa" de Flatulandia</label>
 
                   <select name="FEmap" id="slctFEmapSelect">
@@ -50,20 +74,20 @@
                     <option value="P">Proyección acimutal polar</option>
 
                   </select>
-                  <br/>
+                  
                   <br/>
                   <p>Radio de Flatulandia (km)</p>
                   <table>
                     <tbody>
 
                       <tr>
-                        <td><input type="text" id="txtFlatEarthRadius" value="20000" class="txtnum" readonly="true"></td>
-                        <td><input type="range" min="6371" max="20000" step="1" value="20000" class="inputSld" id="sldFlatEarthRadius"></td>
+                        <td><input type="text" id="txtFlatEarthRadius" value="20004" class="txtnum" readonly="true"></td>
+                        <td><input type="range" min="6371" max="20004" step="1" value="20004" class="inputSld" id="sldFlatEarthRadius"></td>
                         
                       </tr>
                     </tbody>
                   </table>
-                  <br/>
+                  
                   <p>Velocidad promedio de vuelo (km/h)</p>
                   <table>
                     <tbody>
@@ -74,7 +98,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <br/>
+                  
                   <p>Velocidad de animación</p>
                   <table>
                     <tbody>
@@ -134,14 +158,7 @@
                 <td><p class="textinfoTextBox">  lng: </p></td>
                 <td><p class="textinfoTextBox" id="endFligthLngContainer"></p></td>
               </tr>
-              <!--
-              <tr>
-                <td><p class="textinfoTextBox" id="infoTotalDistance">Distancia total: </p></td>
-              </tr>
-              <tr>
-                <td><p class="textinfoTextBox" id="infoTotalFligthTime">Tiempo total de vuelo: </p></td>
-              </tr> 
-              -->
+
             </tbody>
           </table>
 
@@ -289,10 +306,24 @@
           <div class="popupInfoContent">
             
             <div id="infoTabContent">
-              <p>
-
-                <p>La aplicación muestra las incoherencias de la "Tierra plana" abordándola desde el problema de las distancias entre distintas ubicaciones. Para hacerlo calcula y muestra trayectorias óptimas entre ubicaciones dadas, en distintas representaciones terrestres (un globo terráqueo, una proyección Mercator y una proyección acimutal equidistante polar norte, mal llamada "mapa de la Tierra plana"). Se pueden dar tantas ubicaciones como se quieran, la aplicación calculará los trayectos entre cada punto de la trayectoria. Una vez trazada la ruta se puede recorrer mostrando punto a punto información como la ubicación actual, el rumbo, la distancia entre los distintos tramos, etc. Se sigue de lo calculado que las trayectorias en la "Tierra plana" no coinciden en la realidad ni en distancias, ni en rumbos ni en duración horaria.</p>
+              <p>La aplicación muestra las incoherencias de la "Tierra plana" abordándola desde el problema de las distancias entre distintas ubicaciones. Para hacerlo calcula y muestra distintos tipos de trayectorias entre ubicaciones dadas, en distintas representaciones terrestres (un globo terráqueo, una proyección Mercator y una proyección acimutal equidistante polar norte, mal llamada "mapa de la Tierra plana"). Se pueden dar tantas ubicaciones como se quieran, la aplicación calculará los trayectos entre cada punto de la trayectoria. Una vez trazada la ruta se puede recorrer mostrando punto a punto información como la ubicación actual, el rumbo, la distancia entre los distintos tramos, etc. Se sigue de lo calculado que las trayectorias en la "Tierra plana" no coinciden en la realidad ni en distancias, ni en rumbos ni en duración horaria.</p>
               
+              <b>Explicación</b>
+              
+              <p>La distancia más corta posible en el planeta Tierra es una “ortodrómica”: un arco de círculo máximo que tiene la menor curvatura posible (por eso coloquialmente se habla de la ruta “más recta”).</p>
+              <p>En una supuesta Tierra plana imaginaria que llamaremos “Flatulandia”, la distancia más corta entre dos puntos es una línea recta (algo que se cumple en cualquier superficie plana). Llamaremos a esa trayectoria una “flatdrómica”.</p>
+              <p>Sin embargo noy hay “flatdrómicas” que coincidan con una trayectoria que podamos seguir en la realidad, llegando incluso a ser hasta 260 % más largas.</p>
+              
+              <b>“¡Pero ese no es el mapa de la Tierra plana!”</b>
+              
+              <p>Todas las localidades están perfectamente ubicadas en el mapa en términos de coordenadas geográficas, así que si hubiese un mapa de la Tierra plana no podría ser otro que uno que coincidiese con una proyección acimutal. Al recorrer una trayectoria cualquiera se pueden ver las localidades que se atraviesan, sus coordenadas y el rumbo (ángulo respecto al norte), de manera que se puede comparar con cualquier recorrido real. Las coordenadas coinciden tanto en el mapa de “Flatulandia” como en el globo terráqueo, pero solo en el globo hay coincidencia en todos los datos.</p>
+              
+              <b>“Pero...pero...¡ese no es el tamaño de la Tierra plana! ¡Nadie lo sabe!”</b>
+              
+              <p>Puede ajustarse el tamaño de “Flatulandia” desde <kbd>Opciones</kbd>/<kbd>Radio de Flatulandia</kbd>. No hay tamaño posible que pueda conciliar todas las diferencias.</p>
+              <p>La conclusión es que no es problema de mala ubicación de continentes ni de tamaños, sino de “distorsión”, ya que en realidad el “mapa” de “Flatulandia” en realidad es una proyección del globo terráqueo en un plano.</p>
+
+         
                 <b>Trazar una ruta</b>
               
               
@@ -317,7 +348,7 @@
                 <b>Recorrer la ruta</b>
               
                 <p>Al hacer click en el botón <kbd>Viajar</kbd> se desplegará una lista en la que se puede elegir uno de los tres tipos de recorrido. Al hacer click en cualquiera se mostrará una animación de un avión (no a escala) recorriendo la ruta y un panel de información. El menú cambiará a comandos para controlar la animación.</p>
-                </p>
+                
             </div>
             <div id="aboutTabContent">
               <b>Créditos</b>
@@ -386,7 +417,9 @@
     <canvas id="canvas"></canvas>
     <!-- Leaflet -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
+    <!--Leaflet providers-->
+    <!--<script src="http://unpkg.com/leaflet@latest/dist/leaflet.js"></script>-->
+    <!--<script src="leaflet-providers.js"></script>-->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     
     
@@ -394,8 +427,9 @@
     <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
     
-    <script src="js.js"></script>
+    <script src="JS/js.js">
 
+    
     
     
    
